@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-shield-halved"></i>
+                CyberGuard
+            </div>
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Secure Your Digital Future</h1>
+                <p class="hero-subtitle">Protecting your digital assets with next-generation AI-powered cybersecurity solutions</p>
+                <div class="hero-buttons">
+                    <button class="cta-button primary">Get Started <i class="fas fa-arrow-right"></i></button>
+                    <button class="cta-button secondary">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">Complete</span>
+                    <span class="stat-label">Threat Detection</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Monitoring</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">Efficient</span>
+                    <span class="stat-label">Clients Protection</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Comprehensive security solutions for your peace of mind</p>
+            </div>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Threat Detection</h3>
+                    <p>Real-time AI-powered threat detection and prevention system</p>
+                    <a href="#" class="learn-more">Learn more <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Security Audit</h3>
+                    <p>Deep-dive security assessment and actionable recommendations</p>
+                    <a href="#" class="learn-more">Learn more <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Privacy Protection</h3>
+                    <p>Advanced encryption and privacy-preserving technologies</p>
+                    <a href="#" class="learn-more">Learn more <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget" id="chatbot-widget">
+        <div class="chatbot-container">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <div class="chatbot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="chatbot-info">
+                        <h3>AI Security Assistant</h3>
+                        <span class="status">Online</span>
+                    </div>
+                </div>
+                <div class="chatbot-actions">
+                    <button class="action-btn theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="minimize-btn" onclick="toggleChat()" title="Minimize chat">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chatbot-body">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message welcome-message">
+                        <div class="message-content">
+                            <p>👋 Hello! I'm your AI security assistant.</p>
+                            <p>How can I help protect your digital assets today?</p>
+                        </div>
+                        <span class="message-time">Just now</span>
+                    </div>
+                </div>
+                <div class="chat-suggestions">
+                    <button onclick="askQuestion('Tell me about common cyber threats')">Common cyber threats</button>
+                    <button onclick="askQuestion('How to secure my network?')">Network security</button>
+                    <button onclick="askQuestion('Password best practices')">Password safety</button>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Ask about cybersecurity...">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Define the addMessage function
+        function addMessage(sender, text) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            // Set the class based on the sender for appropriate styling
+            if (sender === 'user') {
+                messageDiv.className = 'message user-message';
+            } else if (sender === 'bot') {
+                messageDiv.className = 'message bot-message';
+            }
+            messageDiv.textContent = text;
+            messagesDiv.appendChild(messageDiv);
+            // Ensure the newest message is visible
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Modified sendMessage function
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (message) {
+                addMessage('user', message);
+                input.value = '';
+                
+                // Show typing indicator
+                const messagesDiv = document.getElementById('chat-messages');
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message bot-message typing-indicator';
+                typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+                messagesDiv.appendChild(typingIndicator);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        
+                try {
+                    const response = await fetch('http://localhost:5000/ask', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ question: message })
+                    });
+        
+                    const data = await response.json();
+                    typingIndicator.remove();
+                    addMessage('bot', data.response);
+                } catch (error) {
+                    typingIndicator.remove();
+                    addMessage('bot', 'Error connecting to the security server. Please try again.');
+                }
+            }
+        }
+      </script>
+      
+      
+</body>
+</html> 
